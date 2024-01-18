@@ -1,4 +1,4 @@
-import { numberFromString, total } from "../src/day1";
+import { numberFromString, total, numberFromString2 } from "../src/day1";
 
 describe("day 1 exercise", () => {
   it("should return the first and last number in a string as a new number", () => {
@@ -13,6 +13,35 @@ describe("day 1 exercise", () => {
 
   it("should return the sum of all new combined numbers", () => {
     const input = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
-    expect(total(input)).toBe(142);
+    expect(total(input, numberFromString)).toBe(142);
+  });
+
+  it("should return the first and last number which contains numbers spelled as words in a string as a new number", () => {
+    expect(numberFromString2("two1nine")).toBe(29);
+    expect(numberFromString2("eightwothree")).toBe(83);
+
+    expect(numberFromString2("abcone2threexyz")).toBe(13);
+
+    expect(numberFromString2("xtwone3four")).toBe(24);
+
+    expect(numberFromString2("4nineeightseven2")).toBe(42);
+
+    expect(numberFromString2("zoneight234")).toBe(14);
+    expect(numberFromString2("7pqrstsixteen")).toBe(76);
+    expect(numberFromString2("nonumbers")).toBe(0);
+    expect(numberFromString2("rtwof")).toBe(22);
+  });
+
+  it("should return the sum of all new combined numbers which also contain words of digits", () => {
+    const input = [
+      "two1nine",
+      "eightwothree",
+      "abcone2threexyz",
+      "xtwone3four",
+      "4nineeightseven2",
+      "zoneight234",
+      "7pqrstsixteen",
+    ];
+    expect(total(input, numberFromString2)).toBe(281);
   });
 });
