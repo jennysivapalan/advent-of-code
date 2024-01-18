@@ -1,1 +1,3 @@
-This project creates a fully operational TypeScript environment, with tests enabled!
+# Advent of Code 2023
+
+Let's see how far this gets before December 2024...
