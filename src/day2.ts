@@ -1,6 +1,6 @@
 const TOTAL_CUBES = [
   { colour: "red", total: 12 },
-  { colour: "green", total: 12 },
+  { colour: "green", total: 13 },
   { colour: "blue", total: 14 },
 ];
 
@@ -28,4 +28,13 @@ export function gameValidity(gameStr: string) {
   return invalidGame
     ? { gameId: Number(gameId), isValid: false }
     : { gameId: Number(gameId), isValid: true };
+}
+
+export function sumOfValidGames(games: string[]) {
+  const gameStatus = games.map(gameValidity);
+  const validGames = gameStatus
+    .filter((game) => game.isValid)
+    .map((g) => g.gameId);
+
+  return validGames.reduce((acc, value) => acc + value, 0);
 }
