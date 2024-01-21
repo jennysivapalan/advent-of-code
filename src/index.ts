@@ -1,6 +1,6 @@
 import { numberFromString, numberFromString2 } from "./day1";
 import * as fs from "fs";
-import { sumOfValidGames } from "./day2";
+import { power, sumOfValidGames } from "./day2";
 
 //day 1 exercise
 // const words = fs.readFileSync("src/input-data/day1.txt", "utf-8").split("\n");
@@ -13,3 +13,6 @@ import { sumOfValidGames } from "./day2";
 const games = fs.readFileSync("src/input-data/day2.txt", "utf-8").split("\n");
 const total = sumOfValidGames(games);
 console.log(total);
+
+const powerOfGames = power(games);
+console.log(powerOfGames);
