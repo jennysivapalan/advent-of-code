@@ -1,4 +1,4 @@
-import { validParts, sumValidParts } from "../src/day3";
+import { validParts, sumValidParts, sumRatioGears } from "../src/day3";
 
 describe("day 3 exercise 1", () => {
   it("if a number is adjacent to a symbol", () => {
@@ -15,7 +15,7 @@ describe("day 3 exercise 1", () => {
       ".664.598..",
     ];
 
-    const parts = validParts(scheme);
+    const parts = validParts(scheme).map((n) => n.num);
     expect(parts).toContain(467);
     expect(parts).toContain(35);
     expect(parts).toContain(617);
@@ -43,5 +43,22 @@ describe("day 3 exercise 1", () => {
     ];
 
     expect(sumValidParts(scheme)).toBe(4361);
+  });
+
+  it("will sum the ratio gears", () => {
+    const scheme = [
+      "467..114..",
+      "...*......",
+      "..35..633.",
+      "......#...",
+      "617*......",
+      ".....+..58",
+      "..592.....",
+      "......755.",
+      "...$.*....",
+      ".664.598..",
+    ];
+
+    expect(sumRatioGears(scheme)).toBe(467835);
   });
 });

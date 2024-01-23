@@ -1,5 +1,5 @@
 export function sumValidParts(scheme: string[]) {
-  const parts = validParts(scheme);
+  const parts = validParts(scheme).map((p) => p.num);
   return parts.reduce((acc, value) => acc + value, 0);
 }
 
@@ -14,6 +14,44 @@ export function validParts(scheme: string[]) {
     points[points.length - 1].x,
     points[points.length - 1].y
   );
+}
+
+/**
+ *
+ * in valid parts - if part is surrounded by * add it as a propery on it with the co-oords
+ * get valid parts
+ * map over to get the * ones with the number [{number, coords of *}]
+ * points - filter by * coords
+ * for the *cords - get the numbers that have matching * coords and add to a list (list of list)
+ * for each list - reduce to one list and multiple numbers
+ * for list - reduce to one with sum
+ *
+ */
+export function sumRatioGears(scheme: string[]) {
+  const ratioGears: Array<Array<number>> = [];
+
+  const parts = validParts(scheme);
+  const partsNextToStar = parts.filter((p) => p.starSymbol);
+
+  const pointsWithStar = createPoints(scheme).filter(
+    (point) => point.value === "*"
+  );
+  pointsWithStar.forEach((point) => {
+    const potentialGears = partsNextToStar.filter(
+      (part) => part.starSymbol?.x === point.x && part.starSymbol.y === point.y
+    );
+
+    if (potentialGears.length > 1) {
+      const nums = potentialGears.map((p) => p.num);
+      ratioGears.push(nums);
+    }
+  });
+
+  const multiplyEachList = ratioGears.flatMap((list) =>
+    list.reduce((acc, value) => acc * value, 1)
+  );
+
+  return multiplyEachList.reduce((acc, value) => acc + value, 0);
 }
 
 type Point = {
@@ -81,6 +119,11 @@ type Coords = {
   x: number;
   y: number;
 };
+
+type ValidPart = {
+  num: number;
+  starSymbol: Point | undefined;
+};
 //works out if a number has any symbols around it (so making it a valid part)
 function numbersAdjacentToSymbols(
   numbers: NumbersWithCoords[],
@@ -88,7 +131,7 @@ function numbersAdjacentToSymbols(
   maxX: number,
   maxY: number
 ) {
-  const validParts: number[] = [];
+  const validParts: ValidPart[] = [];
   numbers.forEach((num) => {
     const coordsToCheck: Coords[] = [];
 
@@ -126,6 +169,9 @@ function numbersAdjacentToSymbols(
       points.find((p) => p.x === c.x && p.y === c.y)
     );
 
+    //are any * symbol so potentially a gear
+    const starSymbol = surroundingPoints.find((p) => p && p.value === "*");
+
     //check if any of the surrpunding points are symbols
     const surroundingSymbols = surroundingPoints.filter((p) => {
       if (p) {
@@ -134,7 +180,8 @@ function numbersAdjacentToSymbols(
         return !isNaN(value) || p.value === "." ? false : true;
       } else return false;
     });
-    if (surroundingSymbols.length > 0) validParts.push(num.value);
+    if (surroundingSymbols.length > 0)
+      validParts.push({ num: num.value, starSymbol: starSymbol });
   });
   return validParts;
 }
