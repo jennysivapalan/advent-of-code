@@ -2,7 +2,7 @@ import { numberFromString, numberFromString2 } from "./day1";
 import * as fs from "fs";
 import { power, sumOfValidGames } from "./day2";
 import { sumRatioGears, sumValidParts } from "./day3";
-import { points, totalPoints } from "./day4";
+import { points, totalPoints, totalScratchcards } from "./day4";
 
 //day 1 exercise
 // const words = fs.readFileSync("src/input-data/day1.txt", "utf-8").split("\n");
@@ -29,4 +29,5 @@ import { points, totalPoints } from "./day4";
 
 //day 4 exercise
 const lines = fs.readFileSync("src/input-data/day4.txt", "utf-8").split("\n");
-console.log(totalPoints(lines));
+//console.log(totalPoints(lines));
+console.log(totalScratchcards(lines));
