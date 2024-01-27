@@ -1,5 +1,10 @@
 import * as fs from "fs";
-import { getSeedList, getSeedToSoilMap, getSoilForSeed } from "../src/day5";
+import {
+  getSeedList,
+  getMap,
+  getDestinationForSource,
+  getLocation,
+} from "../src/day5";
 
 describe("day 5 exercise 1", () => {
   it("it determine the seeds list", () => {
@@ -18,7 +23,11 @@ describe("day 5 exercise 1", () => {
     const lines = fs
       .readFileSync("src/input-data/day5.txt", "utf-8")
       .split("\n");
-    const seedsToSoilMap = getSeedToSoilMap(lines);
+    const seedsToSoilMap = getMap(
+      lines,
+      "seed-to-soil map:",
+      "soil-to-fertilizer map:"
+    );
     expect(seedsToSoilMap.length).toBe(2);
     expect(seedsToSoilMap).toContain("50 98 2");
     expect(seedsToSoilMap).toContain("52 50 48");
@@ -28,12 +37,24 @@ describe("day 5 exercise 1", () => {
     const lines = fs
       .readFileSync("src/input-data/day5.txt", "utf-8")
       .split("\n");
-    const seedsToSoilMap = getSeedToSoilMap(lines);
-
-    const soil = getSoilForSeed(79, seedsToSoilMap);
+    const seedsToSoilMap = getMap(
+      lines,
+      "seed-to-soil map:",
+      "soil-to-fertilizer map:"
+    );
+    const soil = getDestinationForSource(79, seedsToSoilMap);
     expect(soil).toBe(81);
 
-    const soil2 = getSoilForSeed(14, seedsToSoilMap);
+    const soil2 = getDestinationForSource(14, seedsToSoilMap);
     expect(soil2).toBe(14);
+  });
+
+  it("should get the location number for a seed number", () => {
+    const lines = fs
+      .readFileSync("src/input-data/day5.txt", "utf-8")
+      .split("\n");
+
+    const location = getLocation(79, lines);
+    expect(location).toBe(82);
   });
 });

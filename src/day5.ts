@@ -7,13 +7,13 @@ export function getSeedList(lines: string[]) {
   } else return [];
 }
 
-export function getSeedToSoilMap(lines: string[]) {
-  const seedToSoilIndex = lines.indexOf("seed-to-soil map:");
+export function getMap(lines: string[], currentMap: string, nextMap: string) {
+  const currentMapIndex = lines.indexOf(currentMap);
 
-  const nextMapIndex = lines.indexOf("soil-to-fertilizer map:");
+  const nextMapIndex = lines.indexOf(nextMap);
 
-  if (seedToSoilIndex !== -1 && nextMapIndex !== -1) {
-    return lines.slice(seedToSoilIndex + 1, nextMapIndex - 1);
+  if (currentMapIndex !== -1 && nextMapIndex !== -1) {
+    return lines.slice(currentMapIndex + 1, nextMapIndex - 1);
   } else return [];
 }
 
@@ -22,16 +22,17 @@ type Map = {
   source: number;
   range: number;
 };
+
 /**
- * map over the string to create the Map object
- * find the max source that is lower than the seed number - 50
- * if none found return seed number for soil
- * get the seed (source) number and minus range 79 - 50 = 29.
- * add 29 to soil (destination) - 52 + 29 = 81
- *
+ * Maps over the string objec, converts to object
+ * looks for line closes to source number
+ * determins the destination number
  */
-export function getSoilForSeed(seed: number, seedToSoilMap: string[]) {
-  const map = seedToSoilMap.map((s) => {
+export function getDestinationForSource(
+  sourceValue: number,
+  mapping: string[]
+) {
+  const map = mapping.map((s) => {
     const line = s.split(" ");
     return {
       destination: parseInt(line[0]),
@@ -40,12 +41,62 @@ export function getSoilForSeed(seed: number, seedToSoilMap: string[]) {
     };
   });
 
-  const validMap = map.filter((m) => m.source <= seed);
-  if (validMap.length === 0) return seed;
+  const validMap = map.filter(
+    (m) => m.source <= sourceValue && m.source + m.range >= sourceValue
+  );
+
+  if (validMap.length === 0) return sourceValue;
 
   const closestToSeedNumber = validMap.sort((a, b) => b.source - a.source);
   const line = closestToSeedNumber[0];
 
-  const difference = seed - line.source;
+  const difference = sourceValue - line.source;
   return line.destination + difference;
+}
+
+/** Seed 79, soil 81, fertilizer 81, water 81, light 74, temperature 78, humidity 78, location 82. */
+export function getLocation(seed: number, lines: string[]) {
+  const soilMap = getMap(lines, "seed-to-soil map:", "soil-to-fertilizer map:");
+  const soil = getDestinationForSource(seed, soilMap);
+
+  const fertilizerMap = getMap(
+    lines,
+    "soil-to-fertilizer map:",
+    "fertilizer-to-water map:"
+  );
+  const fertilizer = getDestinationForSource(soil, fertilizerMap);
+
+  const waterMap = getMap(
+    lines,
+    "fertilizer-to-water map:",
+    "water-to-light map:"
+  );
+  const water = getDestinationForSource(fertilizer, waterMap);
+
+  const lightMap = getMap(
+    lines,
+    "water-to-light map:",
+    "light-to-temperature map:"
+  );
+  const light = getDestinationForSource(water, lightMap);
+
+  const tempMap = getMap(
+    lines,
+    "light-to-temperature map:",
+    "temperature-to-humidity map:"
+  );
+  const temp = getDestinationForSource(light, tempMap);
+
+  const humidityMap = getMap(
+    lines,
+    "temperature-to-humidity map:",
+    "humidity-to-location map:"
+  );
+  const humidity = getDestinationForSource(temp, humidityMap);
+
+  const locationMap = getMap(lines, "humidity-to-location map:", "end map");
+
+  const location = getDestinationForSource(humidity, locationMap);
+
+  return location;
 }
