@@ -3,6 +3,7 @@ import * as fs from "fs";
 import { power, sumOfValidGames } from "./day2";
 import { sumRatioGears, sumValidParts } from "./day3";
 import { points, totalPoints, totalScratchcards } from "./day4";
+import { getSeedList, getSeedList2, getSmallestLocation } from "./day5";
 
 //day 1 exercise
 // const words = fs.readFileSync("src/input-data/day1.txt", "utf-8").split("\n");
@@ -27,7 +28,14 @@ import { points, totalPoints, totalScratchcards } from "./day4";
 // const ratioGears = sumRatioGears(scheme);
 // console.log(ratioGears);
 
-//day 4 exercise
-const lines = fs.readFileSync("src/input-data/day4.txt", "utf-8").split("\n");
-//console.log(totalPoints(lines));
-console.log(totalScratchcards(lines));
+// //day 4 exercise
+// const lines = fs.readFileSync("src/input-data/day4.txt", "utf-8").split("\n");
+// //console.log(totalPoints(lines));
+// console.log(totalScratchcards(lines));
+
+//day 5 exercise
+const lines = fs
+  .readFileSync("src/input-data/day5-large.txt", "utf-8")
+  .split("\n");
+const smallestLocation = getSmallestLocation(lines, getSeedList2);
+console.log(smallestLocation);

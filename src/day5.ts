@@ -7,6 +7,31 @@ export function getSeedList(lines: string[]) {
   } else return [];
 }
 
+type Seed = {
+  id: number;
+  range: number;
+};
+export function getSeedList2(lines: string[]) {
+  const seedsLine = lines.find((line) => line.startsWith("seeds:"));
+  const seedRangeList: Seed[] = [];
+  if (seedsLine) {
+    const seeds = seedsLine.split("seeds: ")[1].split(" ");
+    for (let i = 0; i < seeds.length; i = i + 2) {
+      seedRangeList.push({
+        id: parseInt(seeds[i]),
+        range: parseInt(seeds[i + 1]),
+      });
+    }
+    const seedList: number[] = [];
+    seedRangeList.forEach((list) => {
+      for (let i = 0; i < list.range; i++) {
+        seedList.push(list.id + i);
+      }
+    });
+    return seedList;
+  } else return [];
+}
+
 export function getMap(lines: string[], currentMap: string, nextMap: string) {
   const currentMapIndex = lines.indexOf(currentMap);
 
@@ -54,7 +79,6 @@ export function getDestinationForSource(
   return line.destination + difference;
 }
 
-/** Seed 79, soil 81, fertilizer 81, water 81, light 74, temperature 78, humidity 78, location 82. */
 export function getLocation(seed: number, lines: string[]) {
   const soilMap = getMap(lines, "seed-to-soil map:", "soil-to-fertilizer map:");
   const soil = getDestinationForSource(seed, soilMap);
@@ -101,8 +125,11 @@ export function getLocation(seed: number, lines: string[]) {
   return location;
 }
 
-export function getSmallestLocation(lines: string[]) {
-  const seeds = getSeedList(lines);
+export function getSmallestLocation(
+  lines: string[],
+  seedList: (lines: string[]) => number[]
+) {
+  const seeds = seedList(lines);
 
   const locations = seeds.map((seed) => getLocation(seed, lines));
 

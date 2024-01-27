@@ -5,6 +5,7 @@ import {
   getDestinationForSource,
   getLocation,
   getSmallestLocation,
+  getSeedList2,
 } from "../src/day5";
 import exp from "constants";
 
@@ -67,7 +68,25 @@ describe("day 5 exercise 1", () => {
       .readFileSync("src/input-data/day5.txt", "utf-8")
       .split("\n");
 
-    const smallestLocation = getSmallestLocation(lines);
+    const smallestLocation = getSmallestLocation(lines, getSeedList);
     expect(smallestLocation).toBe(35);
+  });
+});
+
+describe("day 5 exercise 2", () => {
+  it("it determine the updated seeds list", () => {
+    const lines = fs
+      .readFileSync("src/input-data/day5.txt", "utf-8")
+      .split("\n");
+    const seeds = getSeedList2(lines);
+    expect(seeds.length).toBe(27);
+  });
+
+  it("it determine the shortest location for updated seeds list", () => {
+    const lines = fs
+      .readFileSync("src/input-data/day5.txt", "utf-8")
+      .split("\n");
+    const smallestLocation = getSmallestLocation(lines, getSeedList2);
+    expect(smallestLocation).toBe(46);
   });
 });
