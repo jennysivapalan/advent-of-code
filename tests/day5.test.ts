@@ -4,7 +4,9 @@ import {
   getMap,
   getDestinationForSource,
   getLocation,
+  getSmallestLocation,
 } from "../src/day5";
+import exp from "constants";
 
 describe("day 5 exercise 1", () => {
   it("it determine the seeds list", () => {
@@ -56,5 +58,16 @@ describe("day 5 exercise 1", () => {
 
     const location = getLocation(79, lines);
     expect(location).toBe(82);
+
+    expect(getLocation(14, lines)).toBe(43);
+  });
+
+  it("should find the smallest location", () => {
+    const lines = fs
+      .readFileSync("src/input-data/day5.txt", "utf-8")
+      .split("\n");
+
+    const smallestLocation = getSmallestLocation(lines);
+    expect(smallestLocation).toBe(35);
   });
 });

@@ -100,3 +100,11 @@ export function getLocation(seed: number, lines: string[]) {
 
   return location;
 }
+
+export function getSmallestLocation(lines: string[]) {
+  const seeds = getSeedList(lines);
+
+  const locations = seeds.map((seed) => getLocation(seed, lines));
+
+  return locations.sort((a, b) => a - b)[0];
+}
