@@ -1,10 +1,3 @@
-/** 
-32T3K 765
-T55J5 684
-KK677 28
-KTJJT 220
-QQQJA 483 */
-
 type Hand = {
   value: string;
   count: number;
@@ -22,7 +15,6 @@ export function cardType(cards: string) {
       typeGroups.splice(index, 1, newHand);
     } else typeGroups.push({ value: card, count: 1 });
   }
-  console.log(typeGroups);
 
   switch (typeGroups.length) {
     case 5:
@@ -49,11 +41,60 @@ type Rank = {
   card: string;
   rank: number;
 };
-export function ranking(hand: string[]) {
-  const ranks = hand.map((hand) => {
-    const card = hand.split(" ")[0];
+export function ordering(hand: string[]) {
+  const ranks = hand.map((card) => {
     const type = cardType(card);
     return { card: card, rank: type };
   });
-  return ranks.sort((a, b) => a.rank - b.rank);
+  const orderedRanks = ranks.sort((a, b) => {
+    if (a.rank === b.rank) return compareHandsOfSameRank(a, b);
+    else return a.rank - b.rank;
+  });
+  return orderedRanks.map((card) => card.card);
+}
+
+const handOrder = [
+  "A",
+  "K",
+  "Q",
+  "J",
+  "T",
+  "9",
+  "8",
+  "7",
+  "6",
+  "5",
+  "4",
+  "3",
+  "2",
+];
+
+function compareHandsOfSameRank(cardA: Rank, cardB: Rank) {
+  let i = 0;
+
+  while (i < 5) {
+    const indexOfA = handOrder.indexOf(cardA.card.charAt(i));
+    const indexOfB = handOrder.indexOf(cardB.card.charAt(i));
+    if (indexOfA === indexOfB) i++;
+    else return indexOfB - indexOfA;
+  }
+  return 0;
+}
+
+export function calculateWinnings(hands: string[]) {
+  const cardWithBid = hands.map((hand) => {
+    const card = hand.split(" ")[0];
+    const bid = parseInt(hand.split(" ")[1]);
+    return { card: card, bid: bid };
+  });
+
+  const cards = hands.map((hand) => hand.split(" ")[0]);
+  const orderCards = ordering(cards);
+
+  const winningsByCard = orderCards.map((card, index) => {
+    const findBid = cardWithBid.find((c) => c.card === card);
+    return findBid ? findBid.bid * (index + 1) : 0;
+  });
+
+  return winningsByCard.reduce((acc, value) => acc + value, 0);
 }

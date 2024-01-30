@@ -1,4 +1,4 @@
-import { cardType, ranking } from "../src/day7";
+import { cardType, ordering, calculateWinnings } from "../src/day7";
 
 describe("day 7 exercise 1", () => {
   it("returns the type of a hand", () => {
@@ -12,29 +12,38 @@ describe("day 7 exercise 1", () => {
   });
 
   it("returns a ranking order for cards that have different types", () => {
+    const hands = ["23332", "A23A4", "23456", "AA8AA", "TTT98"];
+
+    const cardsInOrder = ordering(hands);
+    expect(cardsInOrder.length).toBe(5);
+    expect(cardsInOrder[0]).toBe("23456");
+    expect(cardsInOrder[1]).toBe("A23A4");
+    expect(cardsInOrder[2]).toBe("TTT98");
+    expect(cardsInOrder[3]).toBe("23332");
+    expect(cardsInOrder[4]).toBe("AA8AA");
+  });
+
+  it("returns a ranking order for cards that have similar types", () => {
+    const hands = ["32T3K", "T55J5", "KK677", "KTJJT", "QQQJA"];
+
+    const cardsInOrder = ordering(hands);
+    expect(cardsInOrder.length).toBe(5);
+    expect(cardsInOrder[0]).toBe("32T3K");
+    expect(cardsInOrder[1]).toBe("KTJJT");
+    expect(cardsInOrder[2]).toBe("KK677");
+    expect(cardsInOrder[3]).toBe("T55J5");
+    expect(cardsInOrder[4]).toBe("QQQJA");
+  });
+
+  it("returns the total winnings for a set of hand", () => {
     const hands = [
-      "23332 765",
-      "A23A4 684",
-      "23456 28",
-      "AA8AA 220",
-      "TTT98 483",
+      "32T3K 765",
+      "T55J5 684",
+      "KK677 28",
+      "KTJJT 220",
+      "QQQJA 483",
     ];
-
-    const ranks = ranking(hands);
-    expect(ranks.length).toBe(5);
-    expect(ranks[0].card).toBe("23456");
-    expect(ranks[0].rank).toBe(1);
-
-    expect(ranks[1].card).toBe("A23A4");
-    expect(ranks[1].rank).toBe(2);
-
-    expect(ranks[2].card).toBe("TTT98");
-    expect(ranks[2].rank).toBe(4);
-
-    expect(ranks[3].card).toBe("23332");
-    expect(ranks[3].rank).toBe(5);
-
-    expect(ranks[4].card).toBe("AA8AA");
-    expect(ranks[4].rank).toBe(6);
+    const winnings = calculateWinnings(hands);
+    expect(winnings).toBe(6440);
   });
 });
