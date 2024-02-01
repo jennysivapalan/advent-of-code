@@ -47,3 +47,34 @@ describe("day 7 exercise 1", () => {
     expect(winnings).toBe(6440);
   });
 });
+
+describe("day 7 exercise 2", () => {
+  it("returns the type of a hand with Joker", () => {
+    expect(cardType("77J7J", true)).toBe(7);
+    expect(cardType("7JJK7", true)).toBe(6);
+    expect(cardType("JJJJJ", true)).toBe(7);
+  });
+  it("returns the order of cards by rank with joker rule", () => {
+    const hands = ["32T3K", "T55J5", "KK677", "KTJJT", "QQQJA"];
+
+    const cardsInOrder = ordering(hands, true);
+    expect(cardsInOrder.length).toBe(5);
+    expect(cardsInOrder[0]).toBe("32T3K");
+    expect(cardsInOrder[1]).toBe("KK677");
+    expect(cardsInOrder[2]).toBe("T55J5");
+    expect(cardsInOrder[3]).toBe("QQQJA");
+    expect(cardsInOrder[4]).toBe("KTJJT");
+  });
+
+  it("returns the total winnings for a set of hand with joker rule", () => {
+    const hands = [
+      "32T3K 765",
+      "T55J5 684",
+      "KK677 28",
+      "KTJJT 220",
+      "QQQJA 483",
+    ];
+    const winnings = calculateWinnings(hands, true);
+    expect(winnings).toBe(5905);
+  });
+});

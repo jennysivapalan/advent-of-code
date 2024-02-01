@@ -55,23 +55,23 @@ export function totalScratchcards(lines: string[]) {
   let processedCards = firstPass.filter((c) => c.isProcessed).length;
 
   let cardsStillToProcess = firstPass.filter((c) => !c.isProcessed);
-  console.log(
-    "total so far",
-    processedCards,
-    "left to do",
-    cardsStillToProcess.length
-  );
+  // console.log(
+  //   "total so far",
+  //   processedCards,
+  //   "left to do",
+  //   cardsStillToProcess.length
+  // );
   while (cardsStillToProcess.length > 0) {
     const nextPass = newList(cardsStillToProcess);
     const newProcessedCards = nextPass.filter((c) => c.isProcessed);
     processedCards = processedCards + newProcessedCards.length;
     cardsStillToProcess = nextPass.filter((c) => !c.isProcessed);
-    console.log(
-      "total so far",
-      processedCards,
-      "left to do",
-      cardsStillToProcess.length
-    );
+    // console.log(
+    //   "total so far",
+    //   processedCards,
+    //   "left to do",
+    //   cardsStillToProcess.length
+    // );
   }
 
   return processedCards;

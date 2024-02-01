@@ -43,5 +43,5 @@ import { calculateWinnings } from "./day7";
 
 //day 7
 const hands = fs.readFileSync("src/input-data/day7.txt", "utf-8").split("\n");
-const winnings = calculateWinnings(hands);
+const winnings = calculateWinnings(hands, true);
 console.log(winnings);
