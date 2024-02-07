@@ -1,10 +1,10 @@
-export function sumOfNextNumbers(lines: string[]) {
-  const nextNums = lines.map((l) => nextNumber(l));
+export function sumOfNextNumbers(lines: string[], isAdd: boolean = true) {
+  const nextNums = lines.map((l) => nextNumber(l, isAdd));
 
   return nextNums.reduce((acc, value) => acc + value, 0);
 }
 
-export function nextNumber(line: string) {
+export function nextNumber(line: string, isAdd: boolean = true) {
   const nums = line.split(" ").map((n) => parseInt(n));
   const overallSequence = [];
   overallSequence.push(nums);
@@ -27,12 +27,29 @@ export function nextNumber(line: string) {
     currentLine = nextLine;
   }
 
-  const lastNumbers = overallSequence.map((n) => n[n.length - 1]);
-
-  let overAllNum = 0;
-  for (let i = lastNumbers.length - 1; i > -1; i--) {
-    overAllNum = overAllNum + lastNumbers[i];
+  if (isAdd) {
+    return addNums(overallSequence);
+  } else {
+    return minusNums(overallSequence);
   }
 
-  return overAllNum;
+  function addNums(overallSequence: number[][]) {
+    const lastNumbers = overallSequence.map((n) => n[n.length - 1]);
+
+    let overAllNum = 0;
+    for (let i = lastNumbers.length - 1; i > -1; i--) {
+      overAllNum = overAllNum + lastNumbers[i];
+    }
+    return overAllNum;
+  }
+
+  function minusNums(overallSequence: number[][]) {
+    const firstNums = overallSequence.map((n) => n[0]);
+
+    let overAllNum = 0;
+    for (let i = firstNums.length - 1; i > -1; i--) {
+      overAllNum = firstNums[i] - overAllNum;
+    }
+    return overAllNum;
+  }
 }

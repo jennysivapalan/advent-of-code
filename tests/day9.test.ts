@@ -10,9 +10,22 @@ describe("day 9 exercise 1", () => {
     expect(nextNumber("10 13 16 21 30 45")).toBe(68);
   });
 
-  it("returns the next number in the order", () => {
+  it("returns the sum of  next number in the order", () => {
     const lines = ["0 3 6 9 12 15", "1 3 6 10 15 21", "10 13 16 21 30 45"];
 
     expect(sumOfNextNumbers(lines)).toBe(114);
+  });
+
+  it("returns the previous number in the order", () => {
+    const line = "0 3 6 9 12 15";
+    expect(nextNumber(line, false)).toBe(-3);
+
+    expect(nextNumber("10 13 16 21 30 45", false)).toBe(5);
+  });
+
+  it("returns the sum of previous number in the order", () => {
+    const lines = ["0 3 6 9 12 15", "1 3 6 10 15 21", "10 13 16 21 30 45"];
+
+    expect(sumOfNextNumbers(lines, false)).toBe(2);
   });
 });

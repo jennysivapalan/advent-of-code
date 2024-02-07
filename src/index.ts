@@ -56,5 +56,5 @@ import { sumOfNextNumbers } from "./day9";
 
 //day 9
 const lines = fs.readFileSync("src/input-data/day9.txt", "utf-8").split("\n");
-const num = sumOfNextNumbers(lines);
+const num = sumOfNextNumbers(lines, false);
 console.log(num);
