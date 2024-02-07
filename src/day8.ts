@@ -1,8 +1,23 @@
 export function stepsToZ(lines: string[]) {
   const map = createMap(lines);
+  return stepsToZWithMap(map, "AAA");
+}
 
+export function stepsToZMultiple(lines: string[]) {
+  const map = createMap(lines);
+  const startingPointsEndingInA = map.rows.filter((row) =>
+    row.source.endsWith("A")
+  );
+
+  const newCounts = startingPointsEndingInA.map((s) =>
+    stepsToZWithMap(map, s.source)
+  );
+  console.log(startingPointsEndingInA, newCounts); //used a LCM calc
+}
+
+function stepsToZWithMap(map: Map, startingPoint: string = "AAA") {
   let foundZZZ = false;
-  let line = map.rows.find((row) => row.source === "AAA");
+  let line = map.rows.find((row) => row.source === startingPoint);
   let j = 0;
   let count = 0;
 
@@ -15,7 +30,7 @@ export function stepsToZ(lines: string[]) {
     const newDestination =
       letter === "R" ? line.destinationRight : line.destinationLeft;
 
-    if (newDestination === "ZZZ") {
+    if (newDestination.endsWith("Z")) {
       foundZZZ = true;
       return count + 1;
     } else {
@@ -26,7 +41,6 @@ export function stepsToZ(lines: string[]) {
     }
   }
 }
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 type Row = {
   source: string;

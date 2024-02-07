@@ -5,7 +5,7 @@ import { sumRatioGears, sumValidParts } from "./day3";
 import { points, totalPoints, totalScratchcards } from "./day4";
 import { getSeedList, getSeedList2, getSmallestLocation } from "./day5";
 import { calculateWinnings } from "./day7";
-import { stepsToZ } from "./day8";
+import { stepsToZ, stepsToZMultiple } from "./day8";
 
 //day 1 exercise
 // const words = fs.readFileSync("src/input-data/day1.txt", "utf-8").split("\n");
@@ -49,6 +49,6 @@ import { stepsToZ } from "./day8";
 
 //day 7
 const lines = fs.readFileSync("src/input-data/day8.txt", "utf-8").split("\n");
-console.log(lines.slice(0, 10));
-const z = stepsToZ(lines);
-console.log(z);
+//console.log(lines.slice(0, 10));
+const z = stepsToZMultiple(lines);
+console.log("z, ", z);
