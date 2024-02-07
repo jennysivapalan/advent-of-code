@@ -6,6 +6,7 @@ import { points, totalPoints, totalScratchcards } from "./day4";
 import { getSeedList, getSeedList2, getSmallestLocation } from "./day5";
 import { calculateWinnings } from "./day7";
 import { stepsToZ, stepsToZMultiple } from "./day8";
+import { sumOfNextNumbers } from "./day9";
 
 //day 1 exercise
 // const words = fs.readFileSync("src/input-data/day1.txt", "utf-8").split("\n");
@@ -47,8 +48,13 @@ import { stepsToZ, stepsToZMultiple } from "./day8";
 // const winnings = calculateWinnings(hands, true);
 // console.log(winnings);
 
-//day 7
-const lines = fs.readFileSync("src/input-data/day8.txt", "utf-8").split("\n");
-//console.log(lines.slice(0, 10));
-const z = stepsToZMultiple(lines);
-console.log("z, ", z);
+//day 8
+// const lines = fs.readFileSync("src/input-data/day8.txt", "utf-8").split("\n");
+// //console.log(lines.slice(0, 10));
+// const z = stepsToZMultiple(lines);
+// console.log("z, ", z);
+
+//day 9
+const lines = fs.readFileSync("src/input-data/day9.txt", "utf-8").split("\n");
+const num = sumOfNextNumbers(lines);
+console.log(num);
