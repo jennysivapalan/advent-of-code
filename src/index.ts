@@ -54,7 +54,9 @@ import { sumOfNextNumbers } from "./day9";
 // const z = stepsToZMultiple(lines);
 // console.log("z, ", z);
 
+console.log("day 9");
+
 //day 9
-const lines = fs.readFileSync("src/input-data/day9.txt", "utf-8").split("\n");
-const num = sumOfNextNumbers(lines, false);
-console.log(num);
+// const lines = fs.readFileSync("src/input-data/day9.txt", "utf-8").split("\n");
+// const num = sumOfNextNumbers(lines, false);
+// console.log(num);
